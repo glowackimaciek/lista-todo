@@ -1,8 +1,11 @@
 class Zadanie:
-    def __init__(self, nazwa, status, numer=""):
+    def __init__(self, nazwa="", status="", numer=""):
         self.nazwa = nazwa
         self.status = status
         self.numer = numer
+
+    def zmien_status(self, nowy_status):
+        self.status = nowy_status
 
     def zadanie_info(self):
         return (
@@ -22,7 +25,7 @@ class Lista_Zadań:
 
     def pokaz_zadania(self):
         for zadanie in self.lista_zadan:
-            print(zadanie.zadanie_info)
+            print(zadanie.zadanie_info())
 
     def usun_zadanie(self, numer):
         nowa_lista = []
@@ -32,7 +35,7 @@ class Lista_Zadań:
         self.lista_zadan = nowa_lista
 
 
-def menu(lista_zadan, zadanie):
+def menu(lista_zadan):
     while True:
         print(f"\n--- {lista_zadan.nazwa} ---")
         print("1. Wyświetl zadania")
@@ -48,13 +51,99 @@ def menu(lista_zadan, zadanie):
             continue
 
         if choice == 1:
-            pass
+            if not lista_zadan.lista_zadan:
+                print("Brak zadań na liscie")
+            else:
+                lista_zadan.pokaz_zadania()
         elif choice == 2:
-            pass
+            nazwa = input("Zadanie: ")
+            while True:
+                print("\n--- Wybierz status ---")
+                print("1. Do zrobinia")
+                print("2. Zrobione")
+                print("3. Cofnij")
+
+                try:
+                    choice = int(input("Wybierz: "))
+                except ValueError:
+                    print("Tylko cyfry")
+                    continue
+
+                if choice == 1:
+                    lista_zadan.dodaj_zadanie(nazwa, status="Do zrobienia")
+                    break
+                elif choice == 2:
+                    lista_zadan.dodaj_zadanie(nazwa, status="Zrobione")
+                    break
+                elif choice == 3:
+                    print("Cofanie...")
+                    break
+                else:
+                    print("Tylko cyfrey 1-5")
+                    continue
+
         elif choice == 3:
-            pass
+            try:
+                choice = int(input("Usuń zadanie nr: "))
+            except ValueError:
+                print("Tylko cyfry")
+                continue
+
+            zadanie_istnieje = False
+            for nr in lista_zadan.lista_zadan:
+                if choice == nr.numer:
+                    zadanie_istnieje = True
+                    break
+            if zadanie_istnieje:
+                lista_zadan.usun_zadanie(choice)
+                print(f"\nZadanie nr: {choice} zostało usunięte")
+                continue
+            else:
+                print("Nie ma takiego zadani")
+                continue
         elif choice == 4:
-            pass
+            if not lista_zadan.lista_zadan:
+                print("Brak zadań na liscie")
+            else:
+                try:
+                    choice = int(input("Nr zadania: "))
+                except ValueError:
+                    print("Tylko cyfry")
+                    continue
+
+                zadanie_istnieje = False
+                for nr in lista_zadan.lista_zadan:
+                    if choice == nr.numer:
+                        zad = nr
+                        zadanie_istnieje = True
+                        break
+
+                if zadanie_istnieje:
+                    print(f"\n--- Zmiana statusu ---")
+                    print("1. Do zrobienia")
+                    print("2. Wykonane")
+                    print("3. Cofnij")
+
+                    try:
+                        choice = int(input("Wybierz: "))
+                    except ValueError:
+                        print("Tylko cyfry")
+                        continue
+
+                    if choice == 1:
+                        zad.zmien_status("Do zrobienia")
+                    elif choice == 2:
+                        zad.zmien_status("Wykonane")
+                    elif choice == 3:
+                        print("Cofanie...")
+                        break
+                    else:
+                        print("Tylko cyfry 1-3")
+                        continue
+                else:
+                    print("Brak takiego zadani na liscie!")
+                    continue
+
         elif choice == 5:
             print("Zamykanie")
             break
@@ -66,4 +155,4 @@ def menu(lista_zadan, zadanie):
 lista_zadan = Lista_Zadań("Lista ToDo")
 zadanie = Zadanie()
 
-menu(lista_zadan, zadanie)
+menu(lista_zadan)
