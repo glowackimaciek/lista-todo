@@ -30,3 +30,40 @@ class Lista_Zadań:
             if zadanie.numer != numer:
                 nowa_lista.append(zadanie)
         self.lista_zadan = nowa_lista
+
+
+def menu(lista_zadan, zadanie):
+    while True:
+        print(f"\n--- {lista_zadan.nazwa} ---")
+        print("1. Wyświetl zadania")
+        print("2. Dodaj zadanie")
+        print("3. Usuń zadanie")
+        print("4. Zmień status zadania")
+        print("5. Zamknij")
+
+        try:
+            choice = int(input("Wybierz: "))
+        except ValueError:
+            print("Tylko cyfry")
+            continue
+
+        if choice == 1:
+            pass
+        elif choice == 2:
+            pass
+        elif choice == 3:
+            pass
+        elif choice == 4:
+            pass
+        elif choice == 5:
+            print("Zamykanie")
+            break
+        else:
+            print("Tylko cyfrey 1-5")
+            continue
+
+
+lista_zadan = Lista_Zadań("Lista ToDo")
+zadanie = Zadanie()
+
+menu(lista_zadan, zadanie)
